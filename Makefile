@@ -1,30 +1,31 @@
-NAME = push_swap
-BONUS = checker
+NAME        = push_swap
+BONUS       = checker
+
+SRCDIR      = src
+INCDIR      = includes
 
 SRC = errors.c push.c reverse.c sort_small.c \
 	index.c push_swap.c rotate.c sort_utils.c \
 	parsing.c radix_sort.c sort_large.c swap.c
-
-OBJ = $(SRC:.c=.o)
+OBJ = $(addprefix $(SRCDIR)/, $(SRC:.c=.o))
 
 BONUS_F = checker.c
 BONUS_U = errors.c push.c reverse.c sort_small.c \
 	  index.c rotate.c sort_utils.c parsing.c \
 	  radix_sort.c sort_large.c swap.c
-
-BONUS_O = $(BONUS_F:.c=.o)
-BONUS_UTILS_O = $(BONUS_U:.c=.o)
+BONUS_O       = $(addprefix $(SRCDIR)/, $(BONUS_F:.c=.o))
+BONUS_UTILS_O = $(addprefix $(SRCDIR)/, $(BONUS_U:.c=.o))
 
 # Libft
 LIBFT_DIR = libft/
-LIBFT = $(LIBFT_DIR)libft.a
+LIBFT     = $(LIBFT_DIR)libft.a
 LIBFT_INC = -I $(LIBFT_DIR)
 
-CC = cc -Wall -Werror -Wextra
-INC = -I ./
-RM = rm -rf
+CC  = cc -Wall -Werror -Wextra
+INC = -I $(INCDIR)
+RM  = rm -rf
 
-%.o: %.c
+$(SRCDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) $(INC) $(LIBFT_INC) -c $< -o $@
 
 all: $(NAME)
@@ -53,4 +54,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re bonus
-
